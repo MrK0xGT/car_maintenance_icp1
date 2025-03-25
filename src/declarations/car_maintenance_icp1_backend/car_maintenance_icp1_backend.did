@@ -1,0 +1,39 @@
+type Technician = 
+ record {
+   availableSlots: vec text;
+   id: text;
+   name: text;
+   qualifications: vec text;
+   rating: nat8;
+ };
+type MaintenanceRecord = 
+ record {
+   carModel: text;
+   caseId: nat;
+   completedItems: vec text;
+   entryTime: text;
+   progress: nat;
+   repairItems: vec text;
+   technicianId: text;
+ };
+type CustomerBooking = 
+ record {
+   caseId: nat;
+   customerId: principal;
+   licensePlate: text;
+   nftToken: text;
+   slot: text;
+   technicianId: text;
+ };
+service : {
+  addRecord: (nat, text, text, vec text, text) -> ();
+  addTechnician: (text, text, vec text, nat8, vec text) -> ();
+  bookTechnician: (text, text) -> (bool);
+  customerBook: (nat, text, text, text) -> (opt text);
+  getCustomerBookings: () -> (vec CustomerBooking) query;
+  getCustomerProgress: (nat) -> (opt MaintenanceRecord) query;
+  getRecords: () -> (vec MaintenanceRecord) query;
+  getTechnicians: () -> (vec Technician) query;
+  payWithCrypto: (nat, nat) -> (opt text);
+  updateProgress: (nat, text) -> (bool);
+}
